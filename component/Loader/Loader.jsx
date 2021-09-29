@@ -10,7 +10,7 @@ const Loader = ({url,id,selector,loading,deferloading}) => {
 
   return (
     <>
-      {loaded ? '':loading?loading: <p> Loading </p>}
+      {loaded ? '':loading}
     </>
   );
 }
