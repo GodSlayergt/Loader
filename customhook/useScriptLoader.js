@@ -17,6 +17,7 @@ const useScriptLoader = (url, id, selector, deferloading) => {
   };
   const loader = () => {
     if (!process.browser) {
+       
       setLoaded(true);
       return null;
     }
