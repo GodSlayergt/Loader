@@ -1,17 +1,15 @@
 import Loader from "../component/Loader/Loader";
-import ManifestLoader from "../component/Loader/ManifestLoader";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
-const temp  = {
-"my-app-header": "header.json",
-'my-app-footer' : "footer.json"
-}
+  
   return (
-    <div className={styles.container}>
+    <div className={styles.container}  >
+     
+      <Loader url='http://localhost:5000/manifest.json'  loading={<h3>loading ...</h3>} namespace='headerApp' selector='headercontainer'/>
       <h1 id="test">Loader</h1>
-      {/* <Loader url='/temp.js' id='text' loading={<h3>loading ...</h3>}/> */}
-      <ManifestLoader manifestPath={temp}/>
+      <Loader url='http://localhost:5001/manifest.json'  loading={<h3>loading ...</h3>} namespace='footerApp' selector='footercontainer'/>
+  
     </div>
   );
 }

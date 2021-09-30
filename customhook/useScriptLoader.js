@@ -1,36 +1,66 @@
 import { useState } from "react";
-const useScriptLoader = (url, id, selector, deferloading) => {
+
+const LoadScript = (
+  url,
+  key,
+  selector,
+  deferloading,
+  namespace,
+  buildFileName
+) => {
+  const id = `${key}-${namespace}`;
+
+  if (!process.browser) {
+    return null;
+  }
+
+  const existingScript = document.getElementById(id);
+  if (existingScript) {
+    return;
+  }
+  const script = document.createElement("script");
+  script.src = url;
+  script.id = id;
+  script.defer = deferloading;
+  document.body.appendChild(script);
+  script.onload = () => {
+    if (buildFileName == key) {
+      if (namespace in window) {
+        window[namespace].default.render(selector);
+      }
+    }
+  };
+};
+
+const useScriptLoader = (
+  manifestPath,
+  selector,
+  deferloading,
+  namespace,
+  buildFileName
+) => {
   const [loaded, setLoaded] = useState(false);
+  const microAppUrlResolver = async () => {
 
-  const appendScript = (parent) => {
-    const existingScript = document.getElementById(id);
-    if (existingScript) {
-      setLoaded(true);
-      return;
+    const response = await fetch(manifestPath, { mode: "cors" });
+    const data = await response.json();
+
+    for (var key of Object.keys(data)) {
+      if (key.match(/\.[0-9a-z]+$/i)[0] == ".js") {
+
+        LoadScript(
+          data[key],
+          key,
+          selector,
+          deferloading,
+          namespace,
+          buildFileName
+        );
+      }
     }
-    const script = document.createElement("script");
-    script.src = url;
-    script.id = id;
-    script.defer = deferloading;
-    parent.appendChild(script);
-    script.onload = () => setLoaded(true);
+    setLoaded(true);
   };
-  const loader = () => {
-    if (!process.browser) {
-       
-      setLoaded(true);
-      return null;
-    }
-
-    const parent = document.getElementById(selector);
-    if (parent) {
-      appendScript(parent);
-    } else {
-      appendScript(document.body);
-    }
-  };
-
-  return { loaded, loader };
+  return { loaded, microAppUrlResolver };
 };
 
 export default useScriptLoader;
