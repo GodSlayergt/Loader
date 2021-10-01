@@ -9,38 +9,39 @@ const Loader = ({
   loading,
   deferloading,
   namespace,
-  buildFileName,
-  appdata
+  appdata,
 }) => {
   const { loaded, microAppUrlResolver } = useScriptLoader(
     url,
     selector,
     deferloading,
     namespace,
-    buildFileName,
     appdata
   );
 
   useEffect(() => {
-    microAppUrlResolver().then((res) => console.log("loaded"));
+    microAppUrlResolver().then(() => console.log("Loaded"));
   });
 
-  return <div id={selector}>{loaded ? "" : loading}</div>;
+  return (
+    <>
+      <div>{loaded ? "" : loading}</div>
+      <div id={selector}></div>
+    </>
+  );
 };
 Loader.propTypes = {
   url: PropTypes.string.isRequired,
-  buildFileName: PropTypes.string,
   selector: PropTypes.string.isRequired,
   loading: PropTypes.node,
   deferloading: PropTypes.bool,
   namespace: PropTypes.string.isRequired,
-  appdata:PropTypes.object
+  appdata: PropTypes.object,
 };
 Loader.defaultProps = {
   deferloading: true,
   loading: <p> Loading </p>,
-  buildFileName: "main.js",
-  appdata:{}
+  appdata: {},
 };
 
 export default Loader;

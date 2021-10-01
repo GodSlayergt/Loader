@@ -1,39 +1,23 @@
-import { useState } from "react";
+import {  useState } from "react";
 
-const LoadScript = (
-  url,
-  key,
-  selector,
-  deferloading,
-  namespace,
-  buildFileName,
-  appdata
-) => {
-  const id = `${key}-${namespace}`;
+const LoadScript = (url, key, deferloading, namespace) => {
+  let promise = new Promise(function (resolve, reject) {
+    const id = `${key}-${namespace}`;
 
-  if (!process.browser) {
-    return null;
-  }
-
-  const existingScript = document.getElementById(id);
-  if (existingScript) {
-    if (namespace in window) {
-      window[namespace].default.render(selector,appdata);
+    const existingScript = document.getElementById(id);
+    if (existingScript) {
+      return resolve("ok");
     }
-    return;
-  }
-  const script = document.createElement("script");
-  script.src = url;
-  script.id = id;
-  script.defer = deferloading;
-  document.body.appendChild(script);
-  script.onload = () => {
-    if (buildFileName == key) {
-      if (namespace in window) {
-        window[namespace].default.render(selector,appdata);
-      }
-    }
-  };
+    const script = document.createElement("script");
+    script.src = url;
+    script.id = id;
+    script.defer = deferloading;
+    document.body.appendChild(script);
+    script.onload = () => {
+      resolve("ok");
+    };
+  });
+  return promise;
 };
 
 const useScriptLoader = (
@@ -41,30 +25,25 @@ const useScriptLoader = (
   selector,
   deferloading,
   namespace,
-  buildFileName,
   appdata
 ) => {
   const [loaded, setLoaded] = useState(false);
   const microAppUrlResolver = async () => {
-
     const response = await fetch(manifestPath, { mode: "cors" });
     const data = await response.json();
+    const promises = [];
 
     for (var key of Object.keys(data)) {
       if (key.match(/\.[0-9a-z]+$/i)[0] == ".js") {
-
-        LoadScript(
-          data[key],
-          key,
-          selector,
-          deferloading,
-          namespace,
-          buildFileName,
-          appdata
-        );
+        promises.push(LoadScript(data[key], key, deferloading, namespace));
       }
     }
-    setLoaded(true);
+    Promise.allSettled(promises).then((value) => {
+      if (window) {
+        window[namespace].default.render(selector, appdata);
+        setLoaded(true);
+      }
+    });
   };
   return { loaded, microAppUrlResolver };
 };
