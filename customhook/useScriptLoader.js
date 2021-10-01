@@ -6,7 +6,8 @@ const LoadScript = (
   selector,
   deferloading,
   namespace,
-  buildFileName
+  buildFileName,
+  appdata
 ) => {
   const id = `${key}-${namespace}`;
 
@@ -16,6 +17,9 @@ const LoadScript = (
 
   const existingScript = document.getElementById(id);
   if (existingScript) {
+    if (namespace in window) {
+      window[namespace].default.render(selector,appdata);
+    }
     return;
   }
   const script = document.createElement("script");
@@ -26,7 +30,7 @@ const LoadScript = (
   script.onload = () => {
     if (buildFileName == key) {
       if (namespace in window) {
-        window[namespace].default.render(selector);
+        window[namespace].default.render(selector,appdata);
       }
     }
   };
@@ -37,7 +41,8 @@ const useScriptLoader = (
   selector,
   deferloading,
   namespace,
-  buildFileName
+  buildFileName,
+  appdata
 ) => {
   const [loaded, setLoaded] = useState(false);
   const microAppUrlResolver = async () => {
@@ -54,7 +59,8 @@ const useScriptLoader = (
           selector,
           deferloading,
           namespace,
-          buildFileName
+          buildFileName,
+          appdata
         );
       }
     }

@@ -10,13 +10,15 @@ const Loader = ({
   deferloading,
   namespace,
   buildFileName,
+  appdata
 }) => {
   const { loaded, microAppUrlResolver } = useScriptLoader(
     url,
     selector,
     deferloading,
     namespace,
-    buildFileName
+    buildFileName,
+    appdata
   );
 
   useEffect(() => {
@@ -32,11 +34,13 @@ Loader.propTypes = {
   loading: PropTypes.node,
   deferloading: PropTypes.bool,
   namespace: PropTypes.string.isRequired,
+  appdata:PropTypes.object
 };
 Loader.defaultProps = {
   deferloading: true,
   loading: <p> Loading </p>,
   buildFileName: "main.js",
+  appdata:{}
 };
 
 export default Loader;
