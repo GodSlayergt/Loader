@@ -6,15 +6,15 @@ To compose multiple independently delivered front-end applications into a whole,
 ## Getting Started
 
 ### To load a react app
->#### <Loader url='http://localhost:5000/manifest.json' loading={\<h3>loading ...</h3>\}  appdata= {{"count":count}} namespace='headerApp' selector='headercontainer'/>
+>#### <Loader url='http://localhost:5000/manifest.json' loading={\<h3>loading ...\</h3>}  appdata= {{"count":count}} namespace='headerApp' selector='headercontainer'/>
 
 ### To load a web component
->####  <Loader url='http://localhost:5002/manifest.json' loading={<h3>loading ...</h3>} namespace='webComponent' selector='webcomponentcount'> <web-component name-attribute={count}></web-component> </Loader> 
+>####  <Loader url='http://localhost:5002/manifest.json' loading={\<h3>loading ...\</h3>} namespace='webComponent' selector='webcomponentcount'> <web-component name-attribute={count}></web-component> </Loader> 
 
 ### Attributes 
->1 ***appdata*** contains data you want to pass to your micro app as object.
->2 ***namespace*** name under which your exporting the app(Required).
->3 ***selector*** id given to the div on which app is loaded(Required).
->4 ***loading*** element to show while loading.
->5 ***url*** url of the mainfest.json file(Required).
+>***appdata*** contains data you want to pass to your micro app as object.</br>
+>***namespace*** name under which your exporting the app(Required).</br>
+>***selector*** id given to the div on which app is loaded(Required).</br>
+>***loading*** element to show while loading.</br>
+>***url*** url of the mainfest.json file(Required).</br>
 
