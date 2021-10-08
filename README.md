@@ -5,6 +5,6 @@ To compose multiple independently delivered front-end applications into a whole,
 
 ## Getting Started
 ### To a react app
-> <Loader url='http://localhost:5000/manifest.json'  appdata= {{"count":count}} namespace='headerApp' selector='headercontainer'/>
+> #### <Loader url='http://localhost:5000/manifest.json'  appdata= {{"count":count}} namespace='headerApp' selector='headercontainer'/>
 >***appdata*** contains data you want to pass to your micro app as object.
 
