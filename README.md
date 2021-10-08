@@ -6,7 +6,7 @@ To compose multiple independently delivered front-end applications into a whole,
 ## Getting Started
 
 ### To load a react app
->#### <Loader url='http://localhost:5000/manifest.json' loading={\*<h3>loading ...</h3>\*}  appdata= {{"count":count}} namespace='headerApp' selector='headercontainer'/>
+>#### <Loader url='http://localhost:5000/manifest.json' loading={\<h3>loading ...</h3>\}  appdata= {{"count":count}} namespace='headerApp' selector='headercontainer'/>
 
 ### To load a web component
 >####  <Loader url='http://localhost:5002/manifest.json' loading={<h3>loading ...</h3>} namespace='webComponent' selector='webcomponentcount'> <web-component name-attribute={count}></web-component> </Loader> 
