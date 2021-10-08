@@ -19,4 +19,5 @@ To compose multiple independently delivered front-end applications into a whole,
 >***selector*** id given to the div on which app is loaded(Required).</br>
 >***loading*** element to show while loading.</br>
 >***url*** url of the mainfest.json file(Required).</br>
+>***deferloading*** it is boolean to load script async or non-async,true by default.
 
